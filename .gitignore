@@ -1,0 +1,17 @@
+# Ignore Vagrant files
+.vagrant/
+*.box
+.env
+# Ignore Terraform files
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.backup
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore temporary files
+.DS_Store
+Thumbs.db

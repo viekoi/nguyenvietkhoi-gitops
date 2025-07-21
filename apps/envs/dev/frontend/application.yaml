@@ -1,0 +1,38 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: us-central1-docker.pkg.dev/nguyenvietkhoi-466304/nguyenvietkhoi-fe/nguyenvietkhoi-fe
+    argocd-image-updater.argoproj.io/payments.update-strategy: semver
+    argocd-image-updater.argoproj.io/write-back-method: git
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  name: frontend-dev
+  namespace: argocd
+spec:
+  destination:
+    namespace: dev
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    helm:
+      parameters:
+      - name: image.repository
+        value: us-central1-docker.pkg.dev/nguyenvietkhoi-466304/nguyenvietkhoi-fe/nguyenvietkhoi-fe
+      - name: nameSpace
+        value: dev
+      - name: image.tag
+        value: 7ff80a50ec5e2ffce89e15a95d9c260ea8d64b7b
+    path: apps/helm-charts/frontend
+    repoURL: git@github.com:viekoi/nguyenvietkhoi-gitops.git
+    targetRevision: main
+  syncPolicy:
+    automated:
+      allowEmpty: false
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true
+    - PrunePropagationPolicy=foreground
